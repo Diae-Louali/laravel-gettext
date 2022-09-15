@@ -57,7 +57,7 @@ class FileSystem
 
         $this->storagePath = $storagePath;
         $this->storageContainer = "framework";
-        $this->folderName = 'i18n';
+        $this->folderName = '';
     }
 
     /**
@@ -137,6 +137,8 @@ class FileSystem
         if (!is_null($append)) {
             array_push($path, $append);
         }
+         echo '<pre>path : ', print_r($path, true) ,'</pre>';
+         echo '<pre>append : ', print_r($append, true) ,'</pre>';
 
         return implode(DIRECTORY_SEPARATOR, $path);
     }
@@ -159,6 +161,8 @@ class FileSystem
         $encoding = $this->configuration->getEncoding();
 
         $relativePath = $this->configuration->getRelativePath();
+
+        echo '<pre>$relativePath : ', print_r($relativePath, true) ,'</pre>';
 
         $keywords = implode(';', $this->configuration->getKeywordsList());
 
@@ -234,8 +238,7 @@ class FileSystem
     public function addLocale($localePath, $locale)
     {
         $data = array(
-            $localePath,
-            "LC_MESSAGES"
+            $localePath
         );
 
         if (!file_exists($localePath)) {
@@ -448,6 +451,9 @@ class FileSystem
         // Locale directories
         foreach ($this->configuration->getSupportedLocales() as $locale) {
             $localePath = $this->getDomainPath($locale);
+
+            echo '<pre>localePath : ', print_r($localePath, true) ,'</pre>';
+            echo '<pre>locale : ', print_r($locale, true) ,'</pre>';
 
             if (!file_exists($localePath)) {
                 // Locale directory is created
