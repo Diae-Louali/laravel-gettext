@@ -131,7 +131,7 @@ class FileSystem
         $path = [
             $this->basePath,
             $this->configuration->getTranslationsPath(),
-            $this->folderName,
+            // $this->folderName,
         ];
 
         if (!is_null($append)) {
@@ -151,7 +151,7 @@ class FileSystem
      * @param  bool|true $write
      * @return int|string
      */
-    public function createPOFile($path, $locale, $domain, $write = true)
+    public function createPOFile($path, $locale, $domain = 'messages', $write = true)
     {
         $project = $this->configuration->getProject();
         $timestamp = date("Y-m-d H:iO");
@@ -233,10 +233,7 @@ class FileSystem
      */
     public function addLocale($localePath, $locale)
     {
-        $data = array(
-            $localePath,
-            "LC_MESSAGES"
-        );
+        $data = array( $localePath ); //, "LC_MESSAGES" 
 
         if (!file_exists($localePath)) {
             $this->createDirectory($localePath);
@@ -258,20 +255,30 @@ class FileSystem
                 $this->createDirectory($gettextPath);
         }
 
+        $data[3] = $locale . ".po";
 
-        // File generation for each domain
-        foreach ($this->configuration->getAllDomains() as $domain) {
-            $data[3] = $domain . ".po";
+        $localePOPath = implode(DIRECTORY_SEPARATOR, $data);
 
-            $localePOPath = implode(DIRECTORY_SEPARATOR, $data);
-
-            if (!$this->createPOFile($localePOPath, $locale, $domain)) {
-                throw new FileCreationException(
-                    sprintf('Can\'t create the file: %s', $localePOPath)
-                );
-            }
-
+        if (!$this->createPOFile($localePOPath, $locale)) {
+            throw new FileCreationException(
+                sprintf('Can\'t create the file: %s', $localePOPath)
+            );
         }
+
+        // // File generation for each domain
+        // foreach ($this->configuration->getAllDomains() as $domain) {
+        //     // $data[3] = $domain . ".po";
+        //     $data[3] = $locale . ".po";
+
+        //     $localePOPath = implode(DIRECTORY_SEPARATOR, $data);
+
+        //     if (!$this->createPOFile($localePOPath, $locale, $domain)) {
+        //         throw new FileCreationException(
+        //             sprintf('Can\'t create the file: %s', $localePOPath)
+        //         );
+        //     }
+
+        // }
 
     }
 
@@ -447,7 +454,7 @@ class FileSystem
 
         // Locale directories
         foreach ($this->configuration->getSupportedLocales() as $locale) {
-            $localePath = $this->getDomainPath($locale);
+            $localePath = $this->getDomainPath();
 
             if (!file_exists($localePath)) {
                 // Locale directory is created
