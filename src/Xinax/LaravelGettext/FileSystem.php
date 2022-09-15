@@ -459,8 +459,8 @@ class FileSystem
         foreach ($this->configuration->getSupportedLocales() as $locale) {
             $localePath = $this->getDomainPath();
             echo '<pre>localePath : ', print_r($localePath, true) ,'</pre>';
-            echo '<pre>localePath condition : ', print_r(!file_exists($localePath) ? "true" : "false", true) ,'</pre>';
-            if (!file_exists($localePath)) {
+            echo '<pre>localePath condition : ', print_r(!file_exists($localePath.'/' . $locale .'.po') ? "true" : "false", true) ,'</pre>';
+            if (!file_exists($localePath.'/' . $locale .'.po')) {
                 // Locale directory is created
                 $this->addLocale($localePath, $locale);
 
