@@ -51,7 +51,7 @@ class GettextUpdate extends BaseCommand
             $domains = $this->configuration->getAllDomains();
 
             foreach ($this->configuration->getSupportedLocales() as $locale) {
-                $localePath = $this->fileSystem->getDomainPath($locale);
+                $localePath = $this->fileSystem->getDomainPath();
 
                 // Create new locale
                 if (!file_exists($localePath)) {
