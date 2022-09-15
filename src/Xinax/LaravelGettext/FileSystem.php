@@ -251,6 +251,8 @@ class FileSystem
         }
 
         $gettextPath = implode(DIRECTORY_SEPARATOR, $data);
+
+        echo '<pre>gettextPath : ', print_r($gettextPath, true) ,'</pre>';
         if (!file_exists($gettextPath)) {
                 $this->createDirectory($gettextPath);
         }
@@ -259,6 +261,7 @@ class FileSystem
 
         $localePOPath = implode(DIRECTORY_SEPARATOR, $data);
 
+        echo '<pre>localePOPath : ', print_r($localePOPath, true) ,'</pre>';
         if (!$this->createPOFile($localePOPath, $locale)) {
             throw new FileCreationException(
                 sprintf('Can\'t create the file: %s', $localePOPath)
@@ -455,7 +458,7 @@ class FileSystem
         // Locale directories
         foreach ($this->configuration->getSupportedLocales() as $locale) {
             $localePath = $this->getDomainPath();
-
+            echo '<pre>localePath', print_r($localePath, true) ,'</pre>';
             if (!file_exists($localePath)) {
                 // Locale directory is created
                 $this->addLocale($localePath, $locale);
