@@ -35,6 +35,7 @@ class GettextCreate extends BaseCommand
             $localesGenerated = $this->fileSystem->generateLocales();
 
             foreach ($localesGenerated as $localePath) {
+                echo '<pre>$localePath : ', print_r($localePath, true) ,'</pre>';
                 $this->comment(sprintf("Locale directory created (%s)", $localePath));
                 $dirCreations++;
             }
